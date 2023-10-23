@@ -7,8 +7,8 @@ let router = express.Router()
 let initWebRoutes = (app) => {
     router.get('/', homeController.getHomePage)
 
-    router.get('/thaithang', (req, res) => {
-        return res.send("Hello ThaiThang")
+    router.get('/login', (req, res) => {
+        return res.render('login.ejs')
     })
 
     router.post('/api/login', userController.handleLogin)
