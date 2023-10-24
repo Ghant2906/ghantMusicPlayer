@@ -5,14 +5,14 @@ let handleLogin = async (req, res) => {
     let password = req.body.password;
 
     if (!email || !password) {
-        return res.status(500).json({
+        res.status(400).json({
             errCode: 1,
             msg: 'Miising input'
         })
     } else {
         let userData = await userService.handleUserLogin(email, password)
 
-        return res.status(200).json({
+        res.status(200).json({
             errCode: userData.errCode,
             msg: userData.msg,
             user: userData.user
@@ -24,13 +24,14 @@ let handleLogin = async (req, res) => {
 
 let handleCreateNewUser = async (req, res) => {
     if (!req.body) {
-        return res.status(200).json({
+        res.status(400).json({
             errCode: 1,
             msg: 'Missing required parameters'
         })
+    }else{
+        let message = await userService.createNewUser(req.body);
+        res.status(200).json(message)
     }
-    let message = await userService.createNewUser(req.body);
-    return res.status(200).json(message)
 }
 
 module.exports = {

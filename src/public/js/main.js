@@ -1,81 +1,8 @@
 $(document).ready(function () {
 	"use strict"; // start of use strict
-
-	/*==============================
-	Menu
-	==============================*/
-	$('.header__btn').on('click', function () {
-		$(this).toggleClass('header__btn--active');
-		$('.sidebar').toggleClass('sidebar--active');
-	});
-
-	$('.header__search .close, .header__action--search button').on('click', function () {
-		$('.header__search').toggleClass('header__search--active');
-	});
-
-	/*==============================
-	Home slider
-	==============================*/
-	$('.hero').owlCarousel({
-		mouseDrag: true,
-		touchDrag: true,
-		dots: true,
-		loop: true,
-		autoplay: false,
-		smartSpeed: 600,
-		autoHeight: true,
-		items: 1,
-		responsive: {
-			0: {
-				margin: 20,
-			},
-			576: {
-				margin: 20,
-			},
-			768: {
-				margin: 30,
-			},
-			1200: {
-				margin: 30,
-			},
-		}
-	});
-
 	/*==============================
 	Carousel
 	==============================*/
-	$('.main__carousel--events').owlCarousel({
-		mouseDrag: true,
-		touchDrag: true,
-		dots: true,
-		loop: true,
-		autoplay: false,
-		smartSpeed: 600,
-		margin: 20,
-		autoHeight: true,
-		responsive: {
-			0: {
-				items: 1,
-			},
-			576: {
-				items: 2,
-			},
-			768: {
-				items: 2,
-				margin: 30,
-			},
-			992: {
-				items: 3,
-				margin: 30,
-			},
-			1200: {
-				items: 3,
-				margin: 30,
-				mouseDrag: false,
-			},
-		}
-	});
-
 	$('.main__carousel--artists').owlCarousel({
 		mouseDrag: true,
 		touchDrag: true,
@@ -102,37 +29,6 @@ $(document).ready(function () {
 			},
 			1200: {
 				items: 6,
-				margin: 30,
-			},
-		}
-	});
-
-	$('.main__carousel--store').owlCarousel({
-		mouseDrag: true,
-		touchDrag: true,
-		dots: true,
-		loop: true,
-		autoplay: false,
-		smartSpeed: 600,
-		margin: 20,
-		autoHeight: true,
-		responsive: {
-			0: {
-				items: 2,
-			},
-			576: {
-				items: 3,
-			},
-			768: {
-				items: 3,
-				margin: 30,
-			},
-			992: {
-				items: 4,
-				margin: 30,
-			},
-			1200: {
-				items: 5,
 				margin: 30,
 			},
 		}
@@ -546,30 +442,4 @@ $(document).ready(function () {
 			}
 		}
 	}
-
-	$("#login_btn").click(function () {
-		// Lấy dữ liệu từ form (username và password)
-		var email = $("#email").val();
-		var password = $("#password").val();
-  
-		// Gọi đến API login thông qua AJAX
-		$.ajax({
-		  type: "POST",
-		  url: "/api/login",
-		  data: {
-			email: email,
-			password: password
-		  },
-		  success: function (data) {
-			// Xử lý khi đăng nhập thành công
-			console.log("Đăng nhập thành công");
-
-			window.location.href = "/";
-		  },
-		  error: function (err) {
-			// Xử lý khi có lỗi đăng nhập
-			console.log("Lỗi đăng nhập: " + err.responseText);
-		  }
-		});
-	  });
 });
