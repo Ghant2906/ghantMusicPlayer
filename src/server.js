@@ -4,10 +4,12 @@ import viewEngine from './config/viewEngine';
 import initWebRoutes from './route/web'
 import cors from 'cors'
 import path from 'path'
+var cookieParser = require('cookie-parser')
 require('dotenv').config()
 
 let app = express()
-app.use(cors({ origin: true }))
+app.use(cors())
+app.use(cookieParser())
 
 app.use('/public', express.static(path.join(__dirname,'public')))
 

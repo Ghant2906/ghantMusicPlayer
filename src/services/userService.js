@@ -1,5 +1,6 @@
 import db from "../models/index"
 import bcrypt from 'bcrypt'
+var jwt = require('jsonwebtoken');
 
 const salt = bcrypt.genSaltSync(10);
 
@@ -10,7 +11,6 @@ let handleUserLogin = (email, password) => {
             let isExist = await checkEmail(email)
             if (isExist) {
                 let user = await db.User.findOne({
-                    attributes: ['userName', 'email', 'password'],
                     where: { email: email },
                     raw: true
                 })
@@ -19,8 +19,7 @@ let handleUserLogin = (email, password) => {
                 if (checkPass) {
                     userData.errCode = 0
                     userData.msg = "OK"
-                    delete user.password
-                    userData.user = user
+                    userData.token = jwt.sign({ data: user.email }, 'mk')
                 } else {
                     userData.errCode = 2
                     userData.msg = 'Wrong password'
@@ -92,7 +91,24 @@ let createNewUser = (data) => {
     })
 }
 
+let getUserByToken = async (email) =>{
+    return new Promise(async (resolve, reject) => {
+        let check = await checkEmail(email)
+        if (check) {
+            let user = await db.User.findOne({
+                attributes: ['userName', 'email'],
+                where: { email: email },
+                raw: true
+            })
+            resolve(user)
+        }else{
+            resolve("Email không tồn tại!!!")
+        }
+    })
+}
+
 module.exports = {
     handleUserLogin: handleUserLogin,
     createNewUser: createNewUser,
+    getUserByToken: getUserByToken
 }
