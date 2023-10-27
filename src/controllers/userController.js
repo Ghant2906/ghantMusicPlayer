@@ -11,7 +11,6 @@ let handleLogin = async (req, res) => {
         })
     } else {
         let data = await userService.handleUserLogin(email, password)
-        console.log()
         return res.status(200).json({
             errCode: data.errCode,
             msg: data.msg,
@@ -33,7 +32,7 @@ let handleCreateNewUser = async (req, res) => {
 }
 
 let getUserByToken = async (req, res) => {
-    let dataUser = await userService.getUserByToken(req.params.email)
+    let dataUser = await userService.getUserByToken(req.params.token)
     return res.status(200).json({
         userName: dataUser.userName,
         email: dataUser.email

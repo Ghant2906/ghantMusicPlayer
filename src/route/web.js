@@ -7,7 +7,7 @@ let router = express.Router()
 let initWebRoutes = (app) => {
 
     router.get('/', (req, res, next) => {
-
+        next()
      }, homeController.getHomePage)
     router.get('/home', homeController.getHomePage)
 
@@ -17,7 +17,7 @@ let initWebRoutes = (app) => {
 
     router.post('/api/login', userController.handleLogin)
     router.post('/api/signup', userController.handleCreateNewUser)
-    router.get('/api/getUser', userController.getUserByToken)
+    router.get('/api/getUser/:token', userController.getUserByToken)
 
     return app.use("/", router)
 }

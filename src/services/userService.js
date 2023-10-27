@@ -91,8 +91,10 @@ let createNewUser = (data) => {
     })
 }
 
-let getUserByToken = async (email) =>{
+let getUserByToken = async (token) =>{
     return new Promise(async (resolve, reject) => {
+        let dataToken = await jwt.verify(token,'mk')
+        let email = dataToken.data
         let check = await checkEmail(email)
         if (check) {
             let user = await db.User.findOne({
