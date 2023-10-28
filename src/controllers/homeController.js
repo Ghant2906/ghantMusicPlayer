@@ -1,4 +1,8 @@
+import songService from "../services/songService"
+
 let getHomePage = (req, res) => {
+    let listSong = songService.getSongNewRelease()
+    console.log(listSong)
     res.render('homePage.ejs')
 }
 

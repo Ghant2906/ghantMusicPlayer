@@ -26,7 +26,7 @@ let handleUserLogin = (email, password) => {
                 }
             } else {
                 userData.errCode = 1
-                userData.msg = `Your's email isn't exist`              
+                userData.msg = `Your's email isn't exist`
             }
             resolve(userData)
         } catch (error) {
@@ -91,21 +91,26 @@ let createNewUser = (data) => {
     })
 }
 
-let getUserByToken = async (token) =>{
+let getUserByToken = async (token) => {
     return new Promise(async (resolve, reject) => {
-        let dataToken = await jwt.verify(token,'mk')
-        let email = dataToken.data
-        let check = await checkEmail(email)
-        if (check) {
-            let user = await db.User.findOne({
-                attributes: ['userName', 'email'],
-                where: { email: email },
-                raw: true
-            })
-            resolve(user)
-        }else{
-            resolve("Email không tồn tại!!!")
+        try {
+            let dataToken = await jwt.verify(token, 'mk')
+            let email = dataToken.data
+            let check = await checkEmail(email)
+            if (check) {
+                let user = await db.User.findOne({
+                    attributes: ['userName', 'email'],
+                    where: { email: email },
+                    raw: true
+                })
+                resolve(user)
+            } else {
+                resolve("Email không tồn tại!!!")
+            }
+        } catch (error) {
+            reject(error)
         }
+
     })
 }
 
