@@ -2,6 +2,7 @@ import express from "express"
 import homeController from "../controllers/homeController"
 import userController from "../controllers/userController"
 import songController from "../controllers/songController"
+import artistController from "../controllers/artistController"
 
 let router = express.Router()
 
@@ -20,6 +21,7 @@ let initWebRoutes = (app) => {
     router.post('/api/signup', userController.handleCreateNewUser)
     router.get('/api/getUser/:token', userController.getUserByToken)
     router.get('/api/getSongNewRelease', songController.getSongNewReleases)
+    router.get('/api/getArtist', artistController.getArtistById)
 
     return app.use("/", router)
 }

@@ -2,39 +2,39 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Songs', {
+    await queryInterface.createTable('Artists', {
       id: { 
         type: Sequelize.STRING,
         primaryKey: true
       },
-      idArtist: {
-        type: Sequelize.STRING
-      },
       name: {
         type: Sequelize.STRING
       },
-      duration: {
+      avatar: {
         type: Sequelize.STRING
       },
-      thumbnail: {
+      banner: {
         type: Sequelize.STRING
       },
-      source: {
+      role: {
         type: Sequelize.STRING
       },
-      totalLike: {
+      userName: {
         type: Sequelize.STRING
       },
-      totalListen: {
+      password: {
         type: Sequelize.STRING
       },
       status: {
         type: Sequelize.STRING
       },
+      isCeleb: {
+        type: Sequelize.STRING
+      },
       slug: {
         type: Sequelize.STRING
       },
-      keySource: {
+      totalFollowers: {
         type: Sequelize.STRING
       },
       createdAt: {
@@ -48,6 +48,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Songs');
+    await queryInterface.dropTable('Artists');
   }
 };
