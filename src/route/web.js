@@ -21,6 +21,7 @@ let initWebRoutes = (app) => {
     router.post('/api/signup', userController.handleCreateNewUser)
     router.get('/api/getUser/:token', userController.getUserByToken)
     router.get('/api/getSongNewRelease', songController.getSongNewReleases)
+    router.get('/api/getTopSongs', songController.getTopSongs)
     router.get('/api/getArtist', artistController.getArtistById)
 
     return app.use("/", router)

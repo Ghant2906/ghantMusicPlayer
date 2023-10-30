@@ -9,11 +9,26 @@ let getSongNewRelease = () => {
                 })
             resolve(data)        
         } catch (error) {
-            console.error('erro: ', error)
+            reject(error)
+        }
+    })
+}
+
+let getTopSongs = () => {
+    return new Promise( async (resolve, reject) => {
+        try {
+            let data = await db.Song.findAll({ 
+                limit: 5,
+                order: [['totalListen', 'DESC']]
+                })
+            resolve(data)        
+        } catch (error) {
+            reject(error)
         }
     })
 }
 
 module.exports = {
     getSongNewRelease: getSongNewRelease,
+    getTopSongs: getTopSongs,
 }

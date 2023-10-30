@@ -2,16 +2,20 @@ import songService from "../services/songService"
 import artistService from "../services/artistService"
 
 let getHomePage = async (req, res) => {
-    let listSong = await songService.getSongNewRelease()
+    let listSongNewRelease = await songService.getSongNewRelease()
 
-    let listArtist = await Promise.all(listSong.map(({ idArtist }) => (artistService.getArtistById(idArtist))))
+    let listArtistSongNewRelease = await Promise.all(listSongNewRelease.map(({ idArtist }) => (artistService.getArtistById(idArtist))))
+
+    let topSongs = await songService.getTopSongs()
+
+    let listArtistTopSong = await Promise.all(topSongs.map(({ idArtist }) => (artistService.getArtistById(idArtist))))
 
     // let listArtist = {}
     // for(let i=0; i<listSong.length; i++){
     //     listArtist[i] = await artistService.getArtistById(listSong[i].idArtist)
     // }
-    
-    res.render('homePage.ejs', { listSong: listSong, listArtist: listArtist })
+
+    res.render('homePage.ejs', { listSong: listSongNewRelease, listArtist: listArtistSongNewRelease, topSongs: topSongs, listArtistTopSong: listArtistTopSong })
 }
 
 module.exports = {

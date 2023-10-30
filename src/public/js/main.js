@@ -117,36 +117,7 @@ $(document).ready(function () {
 			},
 		}
 	});
-
-	/*==============================
-	Product
-	==============================*/
-	$('.store-item__carousel').owlCarousel({
-		mouseDrag: true,
-		touchDrag: true,
-		dots: true,
-		loop: true,
-		autoplay: false,
-		smartSpeed: 600,
-		autoHeight: true,
-		items: 1,
-		margin: 20,
-	});
-
-	/*==============================
-	Filter
-	==============================*/
-	$('.filter__item-menu li').each(function () {
-		$(this).attr('data-value', $(this).text().toLowerCase());
-	});
-
-	$('.filter__item-menu li').on('click', function () {
-		var text = $(this).text();
-		var item = $(this);
-		var id = item.closest('.filter').attr('id');
-		$('#' + id).find('.filter__item-btn input').val(text);
-	});
-
+	
 	/*==============================
 	Modal
 	==============================*/

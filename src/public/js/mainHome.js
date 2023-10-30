@@ -40,11 +40,10 @@ $(document).ready(() => {
         });
     }
 
-    fetch('/api/getSongNewRelease')
+    fetch('/api/getTopSongs')
         .then(response => response.json())
         .then(data => {
-            // Xử lý dữ liệu nhận được từ API ở đây
-            console.log(data);
+            
         })
         .catch(error => {
             console.error('Error fetching data:', error);

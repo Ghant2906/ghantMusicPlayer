@@ -7,6 +7,14 @@ let getSongNewReleases = async (req, res) => {
     })
 }
 
+let getTopSongs = async (req, res) => {
+    let topSongs = await songService.getTopSongs()
+    return res.status(200).json({
+        topSongs: topSongs
+    })
+}
+
 module.exports = {
     getSongNewReleases: getSongNewReleases,
+    getTopSongs: getTopSongs,
 }
