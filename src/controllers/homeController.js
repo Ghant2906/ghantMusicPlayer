@@ -10,11 +10,6 @@ let getHomePage = async (req, res) => {
 
     let listArtistTopSong = await Promise.all(topSongs.map(({ idArtist }) => (artistService.getArtistById(idArtist))))
 
-    // let listArtist = {}
-    // for(let i=0; i<listSong.length; i++){
-    //     listArtist[i] = await artistService.getArtistById(listSong[i].idArtist)
-    // }
-
     res.render('homePage.ejs', { listSong: listSongNewRelease, listArtist: listArtistSongNewRelease, topSongs: topSongs, listArtistTopSong: listArtistTopSong })
 }
 
