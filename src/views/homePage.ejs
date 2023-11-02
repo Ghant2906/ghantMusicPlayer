@@ -14,13 +14,13 @@
     <link rel="stylesheet" href="./css/plyr.css" />
     <link rel="stylesheet" href="./css/main.css" />
 
-    <link rel="icon" type="image/png" href="./icon/favicon-32x32.png" sizes="32x32" />
-    <link rel="apple-touch-icon" href="./icon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" href="./img/logoGhant.svg" sizes="32x32" />
+    <link rel="apple-touch-icon" href="./img/logo.png" />
 
     <meta name="description" content="" />
     <meta name="keywords" content="" />
     <meta name="author" content="Dmitry Volkov" />
-    <title>Volna – Record label & Music streaming HTML Template</title>
+    <title>Ghant Music – Tune in to your world</title>
 </head>
 
 <body>
@@ -28,7 +28,7 @@
         <div class="header__content">
             <div class="header__logo">
                 <a href="index.html">
-                    <img src="img/logo.svg" alt="" />
+                    <img src="img/logoGhant.svg" alt="" />
                 </a>
             </div>
 
@@ -74,7 +74,7 @@
 
     <div class="sidebar">
         <div class="sidebar__logo">
-            <img src="img/logo.svg" alt="" />
+            <img src="img/logoGhant.svg" alt="" />
         </div>
 
         <ul class="sidebar__nav">
@@ -119,10 +119,9 @@
         </div>
 
         <div class="player__content">
-            <span class="player__track"><b class="player__title"></b> – <span
-                    class="player__artist"></span></span>
-            <audio src=""
-                id="audio" controls></audio>
+            <span class="player__track"><b class="player__title"></b></span>
+            <span class="player__track"><b class="player__artist" style="font-weight: normal;"></b></span>
+            <audio src="" id="audio" controls></audio>
         </div>
     </div>
 
@@ -150,14 +149,17 @@
                         <div class="col-6 col-sm-4 col-lg-2">
                             <div class="album">
                                 <div class="album__cover">
-                                    <img src=<%=song.thumbnail %> alt="" />
-                                    <a href="release.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                            <path
-                                                d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z" />
-                                        </svg></a>
+                                    <img src=<%=song.thumbnail.replace('w94', 'w250') %> alt="" />
+                                    <a data-link data-title="<%=song.name %>"
+                                        data-artist="<%= listArtist[i].name %>"
+                                        data-img="<%=song.thumbnail %>" href="<%= song.source %>"
+                                        ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path
+                                            d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z" />
+                                    </svg></a>
                                 </div>
                                 <div class="album__title">
-                                    <h3><a href="release.html">
+                                    <h3><a href="">
                                             <%= song.name %>
                                         </a></h3>
                                     <span><a href="artist.html">
@@ -276,20 +278,19 @@
                                         <span class="single-item__number">
                                             <%= i+1 %>
                                         </span>
-                                        <a data-link data-title=<%=topSongs[i].name %>
-                                            data-artist= <%= listArtistTopSong[i].name %>
-                                                data-img= <%=topSongs[i].thumbnail %>
-                                                    href= <%= topSongs[i].source %>
-                                                    class="single-item__cover">
-                                                    <img src=<%=topSongs[i].thumbnail %> alt="" />
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                                        <path
-                                                            d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z" />
-                                                    </svg>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                                        <path
-                                                            d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z" />
-                                                    </svg>
+                                        <a data-link data-title="<%=topSongs[i].name %>"
+                                            data-artist="<%= listArtistTopSong[i].name %>"
+                                            data-img="<%=topSongs[i].thumbnail %>" href="<%= topSongs[i].source %>"
+                                            class="single-item__cover">
+                                            <img src=<%=topSongs[i].thumbnail %> alt="" />
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z" />
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z" />
+                                            </svg>
                                         </a>
                                         <div class="single-item__title">
                                             <h4><a href="#">
