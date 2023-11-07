@@ -21,6 +21,10 @@ function getCookie(cname) {
     return "";
 }
 
+function delete_cookie(name) {
+    document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+  }
+
 $(document).ready(() => {
     "use strict";
 
@@ -33,10 +37,29 @@ $(document).ready(() => {
             success: (data) => {
                 $('#login__svg').hide()
                 $('#login__span').html(data.userName)
+                let menuLogin = $('#menuLogin');
+                $('#login__btn').hover(() => {
+                    $('#menuLogin').css("display", 'block')
+                }, () => {
+                    $('#menuLogin').css("display", 'none')
+                });
+
+                menuLogin.find('a').hover(
+                    function () {
+                        $(this).css('background-color', '#ddd');
+                    },
+                    function () {
+                        $(this).css('background-color', '');
+                    }
+                );
             },
             error: (error) => {
                 console.error('Lỗi khi gọi API:', error);
             }
         });
+
+        $('#logOut_btn').click( () => {
+            delete_cookie('token')
+        })
     }
 })

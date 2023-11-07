@@ -18,7 +18,11 @@ let getSongNewRelease = async () => {
                     console.log(error);
                 }
             }
-            return data
+            let listSong = await db.Song.findAll({
+                limit: 12,
+                order: [['createdAt', 'DESC']]
+            })
+            return listSong
         } catch (error) {
             console.log(error);
         }
@@ -41,7 +45,11 @@ let getTopSongs = async () => {
                 console.log(error);
             }
         }
-        return data;
+        let listSong = await db.Song.findAll({
+            limit: 5,
+            order: [['totalListen', 'DESC']]
+        })
+        return listSong;
     } catch (error) {
         console.log(error)
     }

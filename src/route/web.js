@@ -16,9 +16,12 @@ let initWebRoutes = (app) => {
     router.get('/login', (req, res) => {
         return res.render('login.ejs')
     })
+    router.get('/register', (req, res) => {
+        return res.render('register.ejs')
+    })
 
     router.post('/api/login', userController.handleLogin)
-    router.post('/api/signup', userController.handleCreateNewUser)
+    router.post('/api/register', userController.handleCreateNewUser)
     router.get('/api/getUser/:token', userController.getUserByToken)
     router.get('/api/getSongNewRelease', songController.getSongNewReleases)
     router.get('/api/getTopSongs', songController.getTopSongs)

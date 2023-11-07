@@ -29,25 +29,28 @@ $(document).ready(() => {
         var email = $("#emailInput").val();
         var password = $("#passwordInput").val();
 
-        // Gọi đến API login thông qua AJAX
-        $.ajax({
-            type: "POST",
-            url: "/api/login",
-            data: {
-                email: email,
-                password: password
-            },
-            success: (data) => {
-                if (data.token) {
-                    setCookie('token', data.token, 1)
-                    window.location.href = "/";
-                } else {
-                    console.log(data.msg)
+        if (!email || !password) {
+            $("#msgErr").html("Miising input")
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "/api/login",
+                data: {
+                    email: email,
+                    password: password
+                },
+                success: (result) => {
+                    if (result.token) {
+                        setCookie('token', result.token, 1)
+                        window.location.href = "/";
+                    } else {
+                        $("#msgErr").html(result.msg)
+                    }
+                },
+                error: function (err) {
+                    console.log("Lỗi đăng nhập: " + err.responseText);
                 }
-            },
-            error: function (err) {
-                console.log("Lỗi đăng nhập: " + err.responseText);
-            }
-        });
+            });
+        }
     });
 })

@@ -7139,3 +7139,36 @@ body::-webkit-scrollbar-thumb {
   height: 4px !important;
   border-radius: 4px !important;
 }
+
+.header__action--signin {
+  position: relative;
+  display: inline-block;
+}
+
+#menuLogin {
+  display: none;
+  position: absolute;
+  background-color: #444444;
+  width: 100px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 5px;
+}
+
+#menuLogin a {
+  color: #ffff;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  border-radius: 5px;
+}
+
+#menuLogin a:hover {
+  background-color: #ddd;
+  border-radius: 5px;
+}
+
+.header__action--signin:hover .header__action-btn {
+  background-color: #444444;
+  border-radius: 5px;
+}
