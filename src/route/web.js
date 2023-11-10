@@ -26,6 +26,7 @@ let initWebRoutes = (app) => {
     router.get('/api/getSongNewRelease', songController.getSongNewReleases)
     router.get('/api/getTopSongs', songController.getTopSongs)
     router.get('/api/getArtist', artistController.getArtistById)
+    router.get('/api/search/:name', songController.searchSongs)
 
     return app.use("/", router)
 }

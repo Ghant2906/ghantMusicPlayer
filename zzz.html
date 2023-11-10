@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .search-container {
+            position: relative;
+        }
+
+        #search-box {
+            width: 200px;
+            padding: 8px;
+        }
+
+        .hints {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            max-height: 150px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .hint-item {
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        .hint-item:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const searchBox = document.getElementById("search-box");
+            const hintContainer = document.getElementById("hint-container");
+
+            // Dummy data for hints
+            const hints = ["Hint 1", "Hint 2", "Hint 3", "Hint 4"];
+
+            // Event listener for input changes
+            searchBox.addEventListener("input", function () {
+                const inputValue = searchBox.value.toLowerCase();
+                const filteredHints = hints.filter(hint => hint.toLowerCase().includes(inputValue));
+
+                // Display hints
+                displayHints(filteredHints);
+            });
+
+            // Event listener for hint item click
+            hintContainer.addEventListener("click", function (e) {
+                if (e.target.classList.contains("hint-item")) {
+                    searchBox.value = e.target.innerText;
+                    hintContainer.style.display = "none";
+                }
+            });
+
+            // Function to display hints
+            function displayHints(filteredHints) {
+                // Clear previous hints
+                hintContainer.innerHTML = "";
+
+                // Display hints
+                filteredHints.forEach(hint => {
+                    const hintItem = document.createElement("div");
+                    hintItem.classList.add("hint-item");
+                    hintItem.textContent = hint;
+                    hintContainer.appendChild(hintItem);
+                });
+
+                // Show hint container if there are hints, otherwise hide it
+                hintContainer.style.display = filteredHints.length > 0 ? "block" : "none";
+            }
+        });
+
+    </script>
+    <title>Search Box with Hints</title>
+</head>
+
+<body>
+    <div class="search-container">
+        <input type="text" id="search-box" placeholder="Search...">
+        <div class="hints" id="hint-container"></div>
+    </div>
+</body>
+
+</html>

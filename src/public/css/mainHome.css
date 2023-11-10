@@ -1,0 +1,21 @@
+.hints {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 50%;
+    background-color: #443e3e;
+    border: 1px solid #867878;
+    max-height: 160px;
+    overflow-y: auto;
+    display: none;
+}
+
+.hint-item {
+    padding: 8px;
+    cursor: pointer;
+    color: #f0f0f0;
+}
+
+.hint-item:hover {
+    background-color: #f0f0f0;
+}
