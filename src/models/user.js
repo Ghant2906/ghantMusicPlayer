@@ -11,9 +11,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasOne(models.Playlist, { foreignKey: 'idUser', targetKey: 'id' });
     }
   }
   User.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true
+    },
     userName: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING

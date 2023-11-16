@@ -14,7 +14,7 @@ let getSongNewRelease = async () => {
             try {
                 let result = await axios.get(`https://mp3.zing.vn/xhr/media/get-source?type=audio&key=${data[i].keySource}`);
                 let source = result.data.data.source['128']
-                data.source = source
+                data[i].source = source
             } catch (error) {
                 console.log(error);
             }
@@ -35,7 +35,7 @@ let getTopSongs = async () => {
             try {
                 let result = await axios.get(`https://mp3.zing.vn/xhr/media/get-source?type=audio&key=${data[i].keySource}`);
                 let source = result.data.data.source['128']
-                data.source = source
+                data[i].source = source
             } catch (error) {
                 console.log(error);
             }
@@ -49,24 +49,19 @@ let getTopSongs = async () => {
 let getSearchSongs = async (nameSong) => {
     try {
         let data = await db.Song.findAll({
-            where: {
-                name: {
-                    [Op.like]: '%' + nameSong + '%'
-                }
-            }
+            where: Sequelize.literal(`MATCH (name) AGAINST ('${nameSong}')`),
         })
         for (let i = 0; i < data.length; i++) {
             try {
-                let result = await axios.get(`https://mp3.zing.vn/xhr/media/get-source?type=audio&key=${data[i].keySource}`);
-                if (result.data.data) {
-                    let source = result.data.data.source['128']
-                    data[i].source = source
-                    data[i].artist = await artistService.getArtistById(data[i].idArtist)
-                }else{
-                    console.log('abc: ', result)
-                    console.log('eee: ', data[i].keySource)
-                    break;
-                }
+                // let result = await axios.get(`https://mp3.zing.vn/xhr/media/get-source?type=audio&key=${data[i].keySource}`);
+                // if (result.data.data) {
+                //     let source = result.data.data.source['128']
+                //     data[i].source = source
+                // }else{
+                //     console.log(data[i].name, '--aa--', data[i].keySource)
+                //     break
+                // }        
+                data[i].artist = await artistService.getArtistById(data[i].idArtist)
             } catch (error) {
                 console.log(error);
             }

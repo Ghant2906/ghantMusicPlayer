@@ -10,10 +10,9 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Song.belongsTo(models.Artist, {
-        foreignKey: 'idArtist'
-      });
-    }
+      // Define associations here
+      Song.hasMany(models.PlaylistDetail, { foreignKey: 'id', targetKey: 'idSong' });
+  }
   }
   Song.init({
     id: {
@@ -22,10 +21,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     idArtist: {
       type: DataTypes.STRING,
-      references: {
-        model: 'Artist', 
-        key: 'id', 
-      },
     },
     name: DataTypes.STRING,
     duration: DataTypes.STRING,

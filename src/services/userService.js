@@ -114,8 +114,56 @@ let getUserByToken = async (token) => {
     })
 }
 
+let getPlaylistByIdUser = async (idUser) => {
+    try {
+        let data = await db.Playlist.findAll({
+            where: { idUser: idUser },
+            attributes: [],
+            include: [
+                {
+                    model: db.PlaylistDetail,
+                    attributes: [],
+                    include: [
+                        {
+                            model: db.Song,
+                            attributes: ['id', 'name', 'idArtist'],
+                        },
+                    ],
+                },
+                {
+                    model: db.User,
+                    attributes: ['userName']
+                }
+            ],
+            raw: true,
+            nest: true
+        })
+
+        // {userName: data[0].User.userName}
+        let listSong = [];
+        data.forEach( playlist => {
+            listSong.push(playlist.PlaylistDetails.Song)
+        });
+        return listSong
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+let handleLogout = async (cookie) => {
+    // try {
+    //     let token = cookie.split('=')[1]
+    //     (token)
+    //     return 'logout successful!'
+    // } catch (error) {
+    //     console.log(error);
+    // }
+}
+
 module.exports = {
     handleUserLogin: handleUserLogin,
     createNewUser: createNewUser,
-    getUserByToken: getUserByToken
+    getUserByToken: getUserByToken,
+    getPlaylistByIdUser: getPlaylistByIdUser,
+    handleLogout: handleLogout
 }

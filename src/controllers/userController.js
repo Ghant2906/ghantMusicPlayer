@@ -11,10 +11,12 @@ let handleLogin = async (req, res) => {
         })
     } else {
         let data = await userService.handleUserLogin(email, password)
+        if(data.errCode == 0){
+            res.cookie('token', data.token);
+        }
         return res.status(200).json({
             errCode: data.errCode,
-            msg: data.msg,
-            token: data.token
+            msg: data.msg
         })
     }
 }
@@ -39,8 +41,22 @@ let getUserByToken = async (req, res) => {
     })
 }
 
+let getPlaylist = async (req, res) => {
+    let playlist = await userService.getPlaylistByIdUser(req.params.idUser)
+    return res.status(200).json({
+        playlist: playlist
+    })
+}
+
+let handleLogout = async (req, res) => {
+    res.clearCookie('token');
+    return res.status(200).json('delete token successful!')
+}
+
 module.exports = {
     handleLogin: handleLogin,
     handleCreateNewUser: handleCreateNewUser,
-    getUserByToken: getUserByToken
+    getUserByToken: getUserByToken,
+    getPlaylist: getPlaylist,
+    handleLogout: handleLogout
 }

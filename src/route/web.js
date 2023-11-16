@@ -20,13 +20,20 @@ let initWebRoutes = (app) => {
         return res.render('register.ejs')
     })
 
+    router.get('/sideBar', (req, res) => {
+        return res.render('test.ejs')
+    })
+
     router.post('/api/login', userController.handleLogin)
     router.post('/api/register', userController.handleCreateNewUser)
+    router.delete('/api/logout', userController.handleLogout)
     router.get('/api/getUser/:token', userController.getUserByToken)
     router.get('/api/getSongNewRelease', songController.getSongNewReleases)
     router.get('/api/getTopSongs', songController.getTopSongs)
     router.get('/api/getArtist', artistController.getArtistById)
     router.get('/api/search/:name', songController.searchSongs)
+    router.get('/api/playlist/:idUser', userController.getPlaylist)
+    router.post('/api/addSongToPlaylist', userController.getPlaylist)
 
     return app.use("/", router)
 }

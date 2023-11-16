@@ -40,14 +40,13 @@ $(document).ready(() => {
                     password: password
                 },
                 success: (result) => {
-                    if (result.token) {
-                        setCookie('token', result.token, 1)
+                    if (result.errCode == 0) {
                         window.location.href = "/";
                     } else {
                         $("#msgErr").html(result.msg)
                     }
                 },
-                error: function (err) {
+                error: (err) => {
                     console.log("Lỗi đăng nhập: " + err.responseText);
                 }
             });
