@@ -28,47 +28,24 @@ function delete_cookie(name) {
 $(document).ready(() => {
     "use strict";
 
-    let token = getCookie('token')
-
-    if (token) {
-        $.ajax({
-            url: '/api/getUser/' + token,
-            type: 'GET',
-            success: (data) => {
-                $('#login__svg').hide()
-                $('#login__span').html(data.userName)
-                let menuLogin = $('#menuLogin');
-                $('#login__btn').hover(() => {
-                    $('#menuLogin').css("display", 'block')
-                }, () => {
-                    $('#menuLogin').css("display", 'none')
-                });
-
-                menuLogin.find('a').hover(
-                    () => {
-                        $(this).css('background-color', '#ddd');
-                    },
-                    () => {
-                        $(this).css('background-color', '');
-                    }
-                );
-            },
-            error: (error) => {
-                console.error('Lỗi khi gọi API:', error);
-            }
-        });
-
-        $('#logOut_btn').click(() => {
+    $('.addToPlaylistBtn').click(function () {
+        let idSong = $(this).data('idsong');
+        if (!getCookie('token')) {
+            alert("Plz login")
+        } else {
             $.ajax({
-                url: '/api/logout',
-                type: 'Delete',
+                url: '/api/addSongToPlaylist',
+                type: 'Post',
+                data: {
+                    idSong: idSong
+                },
                 success: (data) => {
-                    console.log(data);
+                    alert(data.msg)
                 },
                 error: (error) => {
                     console.error('Lỗi khi gọi API:', error);
                 }
             })
-        })
-    }
+        }
+    });
 })

@@ -36,15 +36,9 @@ let handleCreateNewUser = async (req, res) => {
 let getUserByToken = async (req, res) => {
     let dataUser = await userService.getUserByToken(req.params.token)
     return res.status(200).json({
+        idUser: dataUser.id,
         userName: dataUser.userName,
         email: dataUser.email
-    })
-}
-
-let getPlaylist = async (req, res) => {
-    let playlist = await userService.getPlaylistByIdUser(req.params.idUser)
-    return res.status(200).json({
-        playlist: playlist
     })
 }
 
@@ -53,10 +47,12 @@ let handleLogout = async (req, res) => {
     return res.status(200).json('delete token successful!')
 }
 
+
+
+
 module.exports = {
     handleLogin: handleLogin,
     handleCreateNewUser: handleCreateNewUser,
     getUserByToken: getUserByToken,
-    getPlaylist: getPlaylist,
     handleLogout: handleLogout
 }

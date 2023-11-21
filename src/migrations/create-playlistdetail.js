@@ -4,11 +4,14 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('PlaylistDetail', {
       idPlaylistDetail: {
-        type: Sequelize.STRING,
-        primaryKey: true
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
+        primaryKey: true,
+        allowNull: false,
+        unique: true,
       },
       idPlaylist: {
-        type: Sequelize.STRING,
+        type: Sequelize.UUID,
       },
       idSong: {
         type: Sequelize.STRING(50),
@@ -21,7 +24,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    },{
+    }, {
       collate: 'utf8_unicode_ci',
     });
   },

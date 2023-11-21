@@ -3,6 +3,7 @@ import homeController from "../controllers/homeController"
 import userController from "../controllers/userController"
 import songController from "../controllers/songController"
 import artistController from "../controllers/artistController"
+import playlistController from "../controllers/playListController"
 
 let router = express.Router()
 
@@ -10,7 +11,7 @@ let initWebRoutes = (app) => {
 
     router.get('/', (req, res, next) => {
         next()
-     }, homeController.getHomePage)
+    }, homeController.getHomePage)
     router.get('/home', homeController.getHomePage)
 
     router.get('/login', (req, res) => {
@@ -20,9 +21,14 @@ let initWebRoutes = (app) => {
         return res.render('register.ejs')
     })
 
-    router.get('/sideBar', (req, res) => {
-        return res.render('test.ejs')
-    })
+    router.get('/playlist', (req, res, next) => {
+        if (!req.cookies.token) {
+            return res.render('login.ejs')
+        } else {
+            next()
+        }
+    }, playlistController.getPlaylistPage)
+
 
     router.post('/api/login', userController.handleLogin)
     router.post('/api/register', userController.handleCreateNewUser)
@@ -32,8 +38,8 @@ let initWebRoutes = (app) => {
     router.get('/api/getTopSongs', songController.getTopSongs)
     router.get('/api/getArtist', artistController.getArtistById)
     router.get('/api/search/:name', songController.searchSongs)
-    router.get('/api/playlist/:idUser', userController.getPlaylist)
-    router.post('/api/addSongToPlaylist', userController.getPlaylist)
+    router.get('/api/playlist/:idUser', playlistController.getPlaylist)
+    router.post('/api/addSongToPlaylist', playlistController.addToPlaylist)
 
     return app.use("/", router)
 }

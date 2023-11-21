@@ -3466,6 +3466,12 @@ body::-webkit-scrollbar-thumb {
   color: #c0c0c0;
 }
 
+.addToPlaylistBtn{
+  color: #c0c0c0;
+  margin-left: 15px;
+  font-size: 25px;
+}
+
 .single-item__title span a:hover {
   color: #25a56a;
 }

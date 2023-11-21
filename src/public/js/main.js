@@ -1,3 +1,31 @@
+
+function setCookie(cname, cvalue, exdays) {
+	const d = new Date();
+	d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+	let expires = "expires=" + d.toUTCString();
+	document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+	let name = cname + "=";
+	let decodedCookie = decodeURIComponent(document.cookie);
+	let ca = decodedCookie.split(';');
+	for (let i = 0; i < ca.length; i++) {
+		let c = ca[i];
+		while (c.charAt(0) == ' ') {
+			c = c.substring(1);
+		}
+		if (c.indexOf(name) == 0) {
+			return c.substring(name.length, c.length);
+		}
+	}
+	return "";
+}
+
+function delete_cookie(name) {
+	document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
 $(document).ready(function () {
 	"use strict"; // start of use strict
 	/*==============================
@@ -272,7 +300,7 @@ $(document).ready(function () {
 				<input data-plyr="volume" type="range" min="0" max="1" step="0.05" value="1" autocomplete="off" aria-label="Volume">
 			</div>
 
-			<a href="release.html" class="plyr__control" aria-label="Playlist">
+			<a href="/playlist" class="plyr__control" aria-label="Playlist">
 				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15,13H9a1,1,0,0,0,0,2h6a1,1,0,0,0,0-2Zm0-4H9a1,1,0,0,0,0,2h6a1,1,0,0,0,0-2ZM12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"/></svg>
 				<span class="plyr__tooltip" role="tooltip">Playlist</span>
 			</a>
@@ -303,7 +331,7 @@ $(document).ready(function () {
 		run(link, audio[0]);
 	});
 
-	function run(link, player) {
+	async function run(link, player) {
 		if ($(link).hasClass('play')) {
 			$(link).removeClass('play');
 			audio[0].pause();
@@ -320,8 +348,19 @@ $(document).ready(function () {
 			$('a[data-link]').removeClass('play');
 			$(link).addClass('active');
 			$(link).addClass('play');
-			player.src = $(link).attr('href');
 
+			let source;
+			await $.ajax({
+                url: `https://mp3.zing.vn/xhr/media/get-source?type=audio&key=${$(link).data('keysource')}`,
+                type: 'Get',
+                success: (data) => {
+                    source = data.data.source['128']
+                },
+                error: (error) => {
+                    console.error('Lỗi khi gọi API:', error);
+                }
+            })
+			player.src = source
 			let title = $(link).data('title');
 			let artist = $(link).data('artist');
 			let img = $(link).data('img');
@@ -383,7 +422,7 @@ $(document).ready(function () {
 			run2($(link), audio[0]);
 		});
 
-		function run2(link, player) {
+		async function run2(link, player) {
 			if ($(link).hasClass('play')) {
 				$(link).removeClass('play');
 				audio[0].pause();
@@ -400,7 +439,19 @@ $(document).ready(function () {
 				$('a[data-playlist]').removeClass('play');
 				$(link).addClass('active');
 				$(link).addClass('play');
-				player.src = $(link).attr('href');
+				console.log($(link).data('keysource'));
+				let source;
+				await $.ajax({
+					url: `https://mp3.zing.vn/xhr/media/get-source?type=audio&key=${$(link).data('keysource')}`,
+					type: 'Get',
+					success: (data) => {
+						source = data.data.source['128']
+					},
+					error: (error) => {
+						console.error('Lỗi khi gọi API:', error);
+					}
+				})
+				player.src = source
 
 				let title = $(link).data('title');
 				let artist = $(link).data('artist');
@@ -412,5 +463,49 @@ $(document).ready(function () {
 				audio[0].play();
 			}
 		}
+	}
+
+	let token = getCookie('token')
+
+	if (token) {
+		$.ajax({
+			url: '/api/getUser/' + token,
+			type: 'GET',
+			success: (data) => {
+				$('#login__svg').hide()
+				$('#login__span').html(data.userName)
+				let menuLogin = $('#menuLogin');
+				$('#login__btn').hover(() => {
+					$('#menuLogin').css("display", 'block')
+				}, () => {
+					$('#menuLogin').css("display", 'none')
+				});
+
+				menuLogin.find('a').hover(
+					() => {
+						$(this).css('background-color', '#ddd');
+					},
+					() => {
+						$(this).css('background-color', '');
+					}
+				);
+			},
+			error: (error) => {
+				console.error('Lỗi khi gọi API:', error);
+			}
+		});
+
+		$('#logOut_btn').click(() => {
+			$.ajax({
+				url: '/api/logout',
+				type: 'Delete',
+				success: (data) => {
+					console.log(data);
+				},
+				error: (error) => {
+					console.error('Lỗi khi gọi API:', error);
+				}
+			})
+		})
 	}
 });
