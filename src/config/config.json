@@ -17,17 +17,37 @@
     "timezone": "+07:00"
   },
   "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "username": "avnadmin",
+    "password": "AVNS_z9KiKRZrHUg-IhKY9Z4",
+    "database": "defaultdb",
+    "host": "mysql-ghantmusic-thaithang115-4996.a.aivencloud.com",
+    "dialect": "mysql",
+    "logging": false,
+    "port": "10201",
+    "ssl": {
+      "require": true,
+      "rejectUnauthorized": false
+    },
+    "query": {
+      "raw": true
+    },
+    "timezone": "+07:00"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "username": "avnadmin",
+    "password": "AVNS_z9KiKRZrHUg-IhKY9Z4",
+    "database": "defaultdb",
+    "host": "mysql-ghantmusic-thaithang115-4996.a.aivencloud.com",
+    "dialect": "mysql",
+    "logging": false,
+    "port": "10201",
+    "ssl": {
+      "require": true,
+      "rejectUnauthorized": false
+    },
+    "query": {
+      "raw": true
+    },
+    "timezone": "+07:00"
   }
 }
