@@ -1,17 +1,5 @@
 {
   "development": {
-    "username": "root",
-    "password": null,
-    "database": "ghantmusic",
-    "host": "127.0.0.1",
-    "dialect": "mysql",
-    "logging": false,
-    "query": {
-      "raw": true
-    },
-    "timezone": "+07:00"
-  },
-  "test": {
     "username": "avnadmin",
     "password": "AVNS_z9KiKRZrHUg-IhKY9Z4",
     "database": "defaultdb",
@@ -27,6 +15,13 @@
       "raw": true
     },
     "timezone": "+07:00"
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
   },
   "production": {
     "username": "root",
