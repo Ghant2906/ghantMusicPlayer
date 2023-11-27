@@ -28,6 +28,16 @@ function delete_cookie(name) {
 
 $(document).ready(function () {
 	"use strict"; // start of use strict
+
+	$('.header__btn').on('click', function() {
+		$(this).toggleClass('header__btn--active');
+		$('.sidebar').toggleClass('sidebar--active');
+	});
+
+	$('.header__search .close, .header__action--search button').on('click', function() {
+		$('.header__search').toggleClass('header__search--active');
+	});
+
 	/*==============================
 	Carousel
 	==============================*/

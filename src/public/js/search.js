@@ -3,25 +3,35 @@ $(document).ready(() => {
     var searchBox = $('#search-box')
     var hintContainer = $('#hint-container')
     var hints = [];
+    var timeOut;
 
-    searchBox.on("keyup", () => {
-        var inputValue = searchBox.val().toLowerCase()
-
-        if (inputValue.length > 1) {
-            $.ajax({
-                type: "GET",
-                url: "/api/search/" + inputValue,
-                success: (result) => {
-                    hints = result.listSearchSongs
-                    displayHints(hints);
-                },
-                error: (err) => {
-                    console.log("Lỗi: " + err.responseText);
-                }
-            })
-        } else {
-            hintContainer.css("display", "none");
+    searchBox.on("input", () => {
+        if (timeOut) {
+            clearTimeout(timeOut);
         }
+
+        timeOut = setTimeout(() => {
+            if (searchBox.val() == "") {
+                console.log('cccc');
+                hintContainer.css("display", "none");
+            } else {
+                var inputValue = searchBox.val().toLowerCase()
+                console.log("bbb: ", inputValue);
+                $.ajax({
+                    type: "GET",
+                    url: "/api/search/" + inputValue,
+                    success: (result) => {
+                        hints = result.listSearchSongs
+                        displayHints(hints);
+                    },
+                    error: (err) => {
+                        console.log("Lỗi: " + err.responseText);
+                    }
+                })
+                hintContainer.empty();
+                hintContainer.css("display", "block")
+            }
+        }, 1000)
     });
 
     hintContainer.on("click", ".hint-item", () => {
@@ -58,6 +68,17 @@ $(document).ready(() => {
             col12.append(mainList);
             hintContainer.append(col12)
         });
-        hintContainer.css("display", "block")
     }
+
+    $(document).on('click', (event) => {
+        var isClickInsideInput = searchBox.is(event.target);
+        if(!isClickInsideInput){
+            hintContainer.css("display", "none")
+        }else{
+            if(searchBox.val() == ""){
+                hintContainer.empty()
+            }
+            hintContainer.css("display", "block")
+        }
+    })
 })
