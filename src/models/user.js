@@ -21,10 +21,21 @@ module.exports = (sequelize, DataTypes) => {
     },
     userName: DataTypes.STRING,
     email: DataTypes.STRING,
-    password: DataTypes.STRING
+    password: DataTypes.STRING,
+    token: DataTypes.STRING,
+    tokenExpires: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'User',
   });
+
+  // sequelize.getQueryInterface().addColumn('Users', 'token', {
+  //     type: DataTypes.STRING,
+  // });
+
+  // sequelize.getQueryInterface().addColumn('Users', 'tokenExpires', {
+  //   type: DataTypes.DATE,
+  // });
+
   return User;
 };

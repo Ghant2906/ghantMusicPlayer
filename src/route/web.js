@@ -21,6 +21,14 @@ let initWebRoutes = (app) => {
         return res.render('register.ejs')
     })
 
+    router.get('/forgot-password', (req, res) => {
+        return res.render('forgotPassword.ejs')
+    })
+
+    router.get('/reset-password/:token', (req, res) => {
+        return res.render('resetPassword.ejs')
+    })
+
     router.get('/playlist', (req, res, next) => {
         if (!req.cookies.token) {
             return res.render('login.ejs')
@@ -40,6 +48,9 @@ let initWebRoutes = (app) => {
     router.get('/api/search/:name', songController.searchSongs)
     router.get('/api/playlist/:idUser', playlistController.getPlaylist)
     router.post('/api/addSongToPlaylist', playlistController.addToPlaylist)
+    router.post('/api/sendMailVerify', userController.handleSendMailVerify)
+    router.get('/api/getUserByTokenReset/:token', userController.getUserByTokenReset)
+    router.post('/api/resetPassword', userController.handleResetPassword)
 
     return app.use("/", router)
 }

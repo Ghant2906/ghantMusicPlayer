@@ -3,7 +3,7 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Artists', {
-      id: { 
+      id: {
         type: Sequelize.STRING,
         primaryKey: true
       },
@@ -45,7 +45,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    },{
+    }, {
       collate: 'utf8_unicode_ci',
     });
   },

@@ -1,12 +1,12 @@
 {
   "development": {
-    "username": "avnadmin",
-    "password": "AVNS_z9KiKRZrHUg-IhKY9Z4",
-    "database": "defaultdb",
-    "host": "mysql-ghantmusic-thaithang115-4996.a.aivencloud.com",
+    "username": "root",
+    "password": null,
+    "database": "ghantmusic",
+    "host": "localhost",
     "dialect": "mysql",
     "logging": false,
-    "port": "10201",
+    "port": "3306",
     "ssl": {
       "require": true,
       "rejectUnauthorized": false
