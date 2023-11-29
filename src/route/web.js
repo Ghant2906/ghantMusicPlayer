@@ -4,8 +4,10 @@ import userController from "../controllers/userController"
 import songController from "../controllers/songController"
 import artistController from "../controllers/artistController"
 import playlistController from "../controllers/playListController"
+require('dotenv').config()
 
 let router = express.Router()
+const passport = require('passport')
 
 let initWebRoutes = (app) => {
 
@@ -51,6 +53,42 @@ let initWebRoutes = (app) => {
     router.post('/api/sendMailVerify', userController.handleSendMailVerify)
     router.get('/api/getUserByTokenReset/:token', userController.getUserByTokenReset)
     router.post('/api/resetPassword', userController.handleResetPassword)
+
+    router.get('/auth/google',
+        passport.authenticate('google', {
+            scope:
+                ['profile', 'email']
+        })
+    )
+
+    router.get('/auth/google/callback',
+        passport.authenticate('google', {
+            successRedirect: '/auth/success',
+            failureRedirect: '/auth/failure'
+        })
+    )
+    router.get('/auth/failure', (req, res) => {
+        res.status(401).json({
+            error: true,
+            message: 'Login in failure'
+        })
+    })
+
+    router.get('/auth/success', (req, res, next) => { req.user ? next() : res.sendStatus(401) }, (req, res) => {
+        // res.status(200).json({
+        //     error: false,
+        //     message: 'Successfully loged In',
+        //     user: req.user
+        // })
+        let name = req.user.displayName
+        res.send(`hello ${name}`)
+    })
+
+    router.get('/logout', (req, res) => {
+        req.session.destroy()
+        res.send('see you again')
+    })
+
 
     return app.use("/", router)
 }

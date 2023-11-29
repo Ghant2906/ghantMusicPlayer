@@ -144,7 +144,7 @@ let sendMailVerify = async (email) => {
                 where: { email: email }
             })
 
-            let link = `${process.env.LINK_RESET_PASS}${token}`
+            let link = `${process.env.CLIENT_URL}/reset-password/${token}`
 
             const mailOptions = {
                 from: process.env.G_MAIL,
