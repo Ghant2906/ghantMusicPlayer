@@ -4,16 +4,15 @@ import userController from "../controllers/userController"
 import songController from "../controllers/songController"
 import artistController from "../controllers/artistController"
 import playlistController from "../controllers/playListController"
-require('dotenv').config()
-
+import authController from "../controllers/authController"
 let router = express.Router()
 const passport = require('passport')
+require('dotenv').config()
 
 let initWebRoutes = (app) => {
 
-    router.get('/', (req, res, next) => {
-        next()
-    }, homeController.getHomePage)
+    router.get('/', homeController.getHomePage)
+
     router.get('/home', homeController.getHomePage)
 
     router.get('/login', (req, res) => {
@@ -39,6 +38,21 @@ let initWebRoutes = (app) => {
         }
     }, playlistController.getPlaylistPage)
 
+    router.get('/auth/google', authController.loginWithGoogle)
+
+    router.get('/auth/google/callback', authController.googleCallback)
+    
+    router.get('/auth/failure', authController.callbackFailure)
+
+    router.get('/auth/success', (req, res, next) => {
+         req.user ? next() : res.sendStatus(401) 
+        }, authController.callbackSuccess)
+
+    router.get('/logout', (req, res) => {
+        req.session.destroy()
+        res.send('see you again')
+    })
+
 
     router.post('/api/login', userController.handleLogin)
     router.post('/api/register', userController.handleCreateNewUser)
@@ -53,42 +67,6 @@ let initWebRoutes = (app) => {
     router.post('/api/sendMailVerify', userController.handleSendMailVerify)
     router.get('/api/getUserByTokenReset/:token', userController.getUserByTokenReset)
     router.post('/api/resetPassword', userController.handleResetPassword)
-
-    router.get('/auth/google',
-        passport.authenticate('google', {
-            scope:
-                ['profile', 'email']
-        })
-    )
-
-    router.get('/auth/google/callback',
-        passport.authenticate('google', {
-            successRedirect: '/auth/success',
-            failureRedirect: '/auth/failure'
-        })
-    )
-    router.get('/auth/failure', (req, res) => {
-        res.status(401).json({
-            error: true,
-            message: 'Login in failure'
-        })
-    })
-
-    router.get('/auth/success', (req, res, next) => { req.user ? next() : res.sendStatus(401) }, (req, res) => {
-        // res.status(200).json({
-        //     error: false,
-        //     message: 'Successfully loged In',
-        //     user: req.user
-        // })
-        let name = req.user.displayName
-        res.send(`hello ${name}`)
-    })
-
-    router.get('/logout', (req, res) => {
-        req.session.destroy()
-        res.send('see you again')
-    })
-
 
     return app.use("/", router)
 }
