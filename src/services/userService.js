@@ -26,12 +26,11 @@ let handleUserLogin = (email, password) => {
                     where: { email: email },
                     raw: true
                 })
-
                 let checkPass = bcrypt.compareSync(password, user.password)
                 if (checkPass) {
                     userData.errCode = 0
                     userData.msg = "OK"
-                    userData.token = jwt.sign({ data: user.email }, 'mk')
+                    userData.token = jwt.sign({ id: user.id, email: user.email, userName: user.userName }, process.env.KEY_COOKIE)
                 } else {
                     userData.errCode = 2
                     userData.msg = 'Wrong password'
@@ -106,19 +105,8 @@ let createNewUser = (data) => {
 let getUserByToken = async (token) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let dataToken = await jwt.verify(token, 'mk')
-            let email = dataToken.data
-            let check = await checkEmail(email)
-            if (check) {
-                let user = await db.User.findOne({
-                    attributes: ['id', 'userName', 'email'],
-                    where: { email: email },
-                    raw: true
-                })
-                resolve(user)
-            } else {
-                resolve(`Your's email isn't exist`)
-            }
+            let dataToken = await jwt.verify(token, process.env.KEY_COOKIE)
+            resolve(dataToken)
         } catch (error) {
             reject(error)
         }
@@ -201,7 +189,7 @@ let resetPassword = async (email, newPass) => {
             let now = new Date(Date.now() - 1000)
             const expires = now.toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' });
 
-            await db.User.update({ password: hassPassword, tokenExpires: expires}, {
+            await db.User.update({ password: hassPassword, tokenExpires: expires }, {
                 where: { email: email }
             })
             resolve({

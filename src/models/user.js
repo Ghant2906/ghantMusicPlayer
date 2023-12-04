@@ -23,7 +23,11 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     password: DataTypes.STRING,
     token: DataTypes.STRING,
-    tokenExpires: DataTypes.DATE
+    tokenExpires: DataTypes.DATE,
+    idGG: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   }, {
     sequelize,
     modelName: 'User',

@@ -1,18 +1,16 @@
 const passport = require('passport')
+const jwt = require('jsonwebtoken');
+import db from "../models/index"
 
 let loginWithGoogle = (req, res) => {
     passport.authenticate('google', {
         scope:
-            ['profile', 'email'],
-        session: false
+            ['profile']
     })(req, res)
 }
 
-let googleCallback = (req, res, next) => {
-    passport.authenticate('google', {
-        successRedirect: '/auth/success',
-        failureRedirect: '/auth/failure'
-    })(req, res, next)
+let googleCallback = (req, res) => {
+    res.redirect('/auth/success')
 }
 
 let callbackFailure = (req, res) => {
@@ -22,7 +20,24 @@ let callbackFailure = (req, res) => {
     })(req, res)
 }
 
-let callbackSuccess = (req, res) => {
+let callbackSuccess = async (req, res) => {
+    let user = req.user;
+    let token;
+    let checkUser = await db.User.findOne({
+        where: { idGG: user.id }
+    })
+    if (checkUser) {
+        token = jwt.sign({ id: checkUser.id, userName: checkUser.userName }, process.env.KEY_COOKIE)
+        res.cookie('token', token);
+    } else {
+        await db.User.create({
+            userName: user.displayName,
+            idGG: user.id
+        }).then((newUser) => {
+            token = jwt.sign({ id: newUser.dataValues.id, userName: newUser.dataValues.userName }, process.env.KEY_COOKIE)
+            res.cookie('token', token);
+        })
+    }
     res.redirect('/')
 }
 

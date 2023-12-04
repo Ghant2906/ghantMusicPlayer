@@ -39,11 +39,8 @@ let initWebRoutes = (app) => {
     }, playlistController.getPlaylistPage)
 
     router.get('/auth/google', authController.loginWithGoogle)
-
-    router.get('/auth/google/callback', authController.googleCallback)
-    
+    router.get('/auth/google/callback', passport.authenticate('google'), authController.googleCallback)
     router.get('/auth/failure', authController.callbackFailure)
-
     router.get('/auth/success', (req, res, next) => {
          req.user ? next() : res.sendStatus(401) 
         }, authController.callbackSuccess)
@@ -52,7 +49,6 @@ let initWebRoutes = (app) => {
         req.session.destroy()
         res.send('see you again')
     })
-
 
     router.post('/api/login', userController.handleLogin)
     router.post('/api/register', userController.handleCreateNewUser)

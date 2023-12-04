@@ -449,7 +449,6 @@ $(document).ready(function () {
 				$('a[data-playlist]').removeClass('play');
 				$(link).addClass('active');
 				$(link).addClass('play');
-				console.log($(link).data('keysource'));
 				let source;
 				await $.ajax({
 					url: `https://mp3.zing.vn/xhr/media/get-source?type=audio&key=${$(link).data('keysource')}`,
@@ -489,7 +488,6 @@ $(document).ready(function () {
 				}, () => {
 					$('#menuLogin').css("display", 'none')
 				});
-
 				menuLogin.find('a').hover(
 					() => {
 						$(this).css('background-color', '#ddd');

@@ -12,11 +12,9 @@ $(document).ready(() => {
 
         timeOut = setTimeout(() => {
             if (searchBox.val() == "") {
-                console.log('cccc');
                 hintContainer.css("display", "none");
             } else {
                 var inputValue = searchBox.val().toLowerCase()
-                console.log("bbb: ", inputValue);
                 $.ajax({
                     type: "GET",
                     url: "/api/search/" + inputValue,
