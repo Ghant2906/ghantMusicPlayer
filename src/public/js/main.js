@@ -476,7 +476,6 @@ $(document).ready(function () {
 	}
 
 	let token = getCookie('token')
-
 	if (token) {
 		$.ajax({
 			url: '/api/getUser/' + token,
@@ -517,5 +516,7 @@ $(document).ready(function () {
 				}
 			})
 		})
+	}else{
+		
 	}
 });

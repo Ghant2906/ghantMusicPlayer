@@ -1,20 +1,18 @@
-import authService from "../services/authService"
-import homeController from "../controllers/homeController"
-
 const passport = require('passport')
 
 let loginWithGoogle = (req, res) => {
     passport.authenticate('google', {
         scope:
-            ['profile', 'email']
+            ['profile', 'email'],
+        session: false
     })(req, res)
 }
 
-let googleCallback = (req, res) => {
+let googleCallback = (req, res, next) => {
     passport.authenticate('google', {
         successRedirect: '/auth/success',
         failureRedirect: '/auth/failure'
-    })(req, res)
+    })(req, res, next)
 }
 
 let callbackFailure = (req, res) => {
@@ -26,7 +24,7 @@ let callbackFailure = (req, res) => {
 
 let callbackSuccess = (req, res) => {
     res.redirect('/')
-} 
+}
 
 module.exports = {
     loginWithGoogle: loginWithGoogle,

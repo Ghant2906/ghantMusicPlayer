@@ -14,16 +14,17 @@ let app = express()
 app.use(cors())
 app.use(cookieParser())
 
-app.use('/public', express.static(path.join(__dirname,'public')))
+app.use('/public', express.static(path.join(__dirname, 'public')))
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(session({
     secret: 'mysecret',
-    resave: false,
+    resave: true,
     saveUninitialized: true,
-    cookie: {secure: false}
+    name: 'userSessionId',
+    cookie: { secure: false, maxAge: 3600000 }
 }))
 
 app.use(passport.initialize())

@@ -1,6 +1,6 @@
 import db from "../models/index"
 import bcrypt from 'bcrypt'
-var jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const { Op } = require('sequelize');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
