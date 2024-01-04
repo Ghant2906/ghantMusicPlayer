@@ -149,7 +149,6 @@ let getUserByToken = async (token) => {
 let confirmRegister = async (token) => {
     let tokenVerify = jwt.verify(token, process.env.KEY_SECRET)
     let email = tokenVerify.email
-    console.log(email);
     let user = await db.User.findOne({
         where: { email: email }
     })
