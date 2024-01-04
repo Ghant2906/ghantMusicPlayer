@@ -28,9 +28,14 @@ let handleUserLogin = (email, password) => {
                 })
                 let checkPass = bcrypt.compareSync(password, user.password)
                 if (checkPass) {
-                    userData.errCode = 0
-                    userData.msg = "OK"
-                    userData.token = jwt.sign({ id: user.id, email: user.email, userName: user.userName }, process.env.KEY_COOKIE)
+                    if (user.status != "Confirmed") {
+                        userData.errCode = 3
+                        userData.msg = 'User unconfirmed. Please check your email and verify to login!'
+                    }else{
+                        userData.errCode = 0
+                        userData.msg = "OK"
+                        userData.token = jwt.sign({ id: user.id, email: user.email, userName: user.userName }, process.env.KEY_COOKIE)
+                    } 
                 } else {
                     userData.errCode = 2
                     userData.msg = 'Wrong password'
@@ -75,6 +80,30 @@ let hashUserPassword = (password) => {
     })
 }
 
+let sendMailConfirm = (token, email) => {
+    let link = `${process.env.CLIENT_URL}/api/confirmRegister/${token}`
+    const mailOptions = {
+        from: process.env.G_MAIL,
+        to: email,
+        subject: 'Confirm Register',
+        text: `Click on the following link to confirm your account: ${link}.`,
+    };
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.error(error);
+            return ({
+                errCode: 1,
+                msg: 'Internal Server Error'
+            });
+        } else {
+            return ({
+                errCode: 0,
+                msg: 'Sent confirm your account to email successfully'
+            });
+        }
+    });
+}
+
 let createNewUser = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -85,11 +114,14 @@ let createNewUser = (data) => {
                     msg: 'Your email is already!'
                 })
             } else {
+                const token = jwt.sign({ email: data.email }, process.env.KEY_SECRET)
+                sendMailConfirm(token, data.email)
                 let hashPassword = await hashUserPassword(data.password);
                 await db.User.create({
                     email: data.email,
                     password: hashPassword,
-                    userName: data.userName
+                    userName: data.userName,
+                    status: "Unconfirmed"
                 })
                 resolve({
                     errCode: 0,
@@ -105,13 +137,41 @@ let createNewUser = (data) => {
 let getUserByToken = async (token) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let dataToken = await jwt.verify(token, process.env.KEY_COOKIE)
+            let dataToken = jwt.verify(token, process.env.KEY_COOKIE)
             resolve(dataToken)
         } catch (error) {
             reject(error)
         }
 
     })
+}
+
+let confirmRegister = async (token) => {
+    let tokenVerify = jwt.verify(token, process.env.KEY_SECRET)
+    let email = tokenVerify.email
+    console.log(email);
+    let user = await db.User.findOne({
+        where: { email: email }
+    })
+    if (!user) {
+        return ({
+            errCode: 1,
+            errMsg: "Invalid token!"
+        })
+    } else if (user.status == 'Confirmed') {
+        return ({
+            errCode: 0,
+            errMsg: "Your account has been confirmed"
+        })
+    } else {
+        await db.User.update({ status: "Confirmed" }, {
+            where: { email: email }
+        })
+        return ({
+            errCode: 0,
+            msg: "Your account has been confirmed"
+        })
+    }
 }
 
 let sendMailVerify = async (email) => {
@@ -171,7 +231,7 @@ let getUserByTokenReset = async (token) => {
         if (!user) {
             resolve({
                 errCode: 1,
-                msg: 'invalid token!'
+                msg: 'Invalid token!'
             })
         } else {
             resolve({
@@ -209,5 +269,6 @@ module.exports = {
     getUserByToken: getUserByToken,
     sendMailVerify: sendMailVerify,
     getUserByTokenReset: getUserByTokenReset,
-    resetPassword: resetPassword
+    resetPassword: resetPassword,
+    confirmRegister: confirmRegister
 }

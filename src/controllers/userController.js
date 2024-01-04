@@ -59,6 +59,21 @@ let handleSendMailVerify = async (req, res) => {
     }
 }
 
+let handleConfirmRegister = async (req, res) => {
+    let token = req.params.token
+    let data = await userService.confirmRegister(token)
+    if(data.errCode != 0){
+        return res.status(400).json({
+            errCode: data.errCode,
+            errMsg: data.errMsg
+        })
+    }
+    return res.status(200).json({
+        errCode: data.errCode,
+        msg: data.msg
+    })
+}
+
 let getUserByTokenReset = async (req, res) =>{
     let data = await userService.getUserByTokenReset(req.params.token)
     if(data.errCode == 0){
@@ -95,5 +110,6 @@ module.exports = {
     handleLogout: handleLogout,
     handleSendMailVerify: handleSendMailVerify,
     getUserByTokenReset: getUserByTokenReset,
-    handleResetPassword: handleResetPassword
+    handleResetPassword: handleResetPassword,
+    handleConfirmRegister: handleConfirmRegister
 }

@@ -337,6 +337,7 @@ $(document).ready(function () {
 	/* single */
 	$('a[data-link]').on('click', function (e) {
 		e.preventDefault();
+		console.log('aaaa');
 		let link = $(this);
 		run(link, audio[0]);
 	});

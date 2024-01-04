@@ -63,6 +63,7 @@ let initWebRoutes = (app) => {
     router.post('/api/sendMailVerify', userController.handleSendMailVerify)
     router.get('/api/getUserByTokenReset/:token', userController.getUserByTokenReset)
     router.post('/api/resetPassword', userController.handleResetPassword)
+    router.get('/api/confirmRegister/:token', userController.handleConfirmRegister)
 
     return app.use("/", router)
 }

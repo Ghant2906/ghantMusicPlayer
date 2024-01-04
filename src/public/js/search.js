@@ -33,47 +33,52 @@ $(document).ready(() => {
     });
 
     hintContainer.on("click", ".hint-item", () => {
-        searchBox.val($(this).find('h4').text());
-        hintContainer.css("display", "none");
+        console.log($(this).find('h4').find('a').text());
+        searchBox.val($(this).find('h4').find('a').text());
     });
 
     let displayHints = (songs) => {
         hintContainer.empty();
 
+        var col12 = $('<div>').addClass('col-12');
+        var mainList = $('<ul>').addClass('main__list');
         songs.forEach(hint => {
-            var col12 = $('<div>').addClass('col-12');
-            var mainList = $('<ul>').addClass('main__list');
             var singleItem = $('<li>').addClass('single-item');
             var singleItemCover = $('<a>')
                 .attr({
                     'data-link': '',
                     'data-title': hint.name,
-                    'data-artist': hint.nameArtist,
+                    'data-artist': hint.artist.name,
                     'data-img': hint.thumbnail,
-                    'href': ''
+                    'data-keysource': hint.keySource,
+                    'href': '#'
                 })
-                .addClass('single-item__cover');
+                .addClass('single-item__cover')
             var coverImage = $('<img>').attr('src', hint.thumbnail).attr('alt', '');
-            var singleItemTitle = $('<div>').addClass('single-item__title hint-item');
-            var titleHeading = $('<h4>').text(hint.name);
-            var artistSpan = $('<span>').text(hint.nameArtist);
-
+            var singleItemTitle = $('<div>').addClass('single-item__title');
+            var titleHeading = $('<h4>').append($('<a>').attr({
+                'href': ''
+            }).text(hint.name));
+            var artistSpan = $('<span>').append($('<a>').attr({
+                'href': ''
+            }).text(hint.artist.name));
             // Append elements
             singleItemCover.append(coverImage);
             singleItemTitle.append(titleHeading, artistSpan);
             singleItem.append(singleItemCover, singleItemTitle);
             mainList.append(singleItem);
-            col12.append(mainList);
-            hintContainer.append(col12)
         });
+        col12.append(mainList);
+        hintContainer.append(col12)
     }
 
     $(document).on('click', (event) => {
         var isClickInsideInput = searchBox.is(event.target);
-        if(!isClickInsideInput){
+        var isClickInsideHintContainer = $(event.target).closest('#hint-container').length > 0;
+        if (!isClickInsideInput && !isClickInsideHintContainer) {
             hintContainer.css("display", "none")
-        }else{
-            if(searchBox.val() == ""){
+        } else {
+            if (searchBox.val() == "") {
                 hintContainer.empty()
             }
             hintContainer.css("display", "block")

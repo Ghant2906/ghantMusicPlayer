@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
+    status: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'User',
