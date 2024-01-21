@@ -4,6 +4,9 @@ import userService from "../services/userService"
 let getPlaylistPage = async (req, res) => {
     let user = await userService.getUserByToken(req.cookies.token)
     let playlist = await playlistService.getPlaylistByIdUser(user.id)
+    if(playlist.length == 0){
+        return res.render('playlist.ejs', {listSong: []})
+    }
     let userName = playlist.shift().userName
     return res.render('playlist.ejs', {userName: userName, listSong: playlist})
 }

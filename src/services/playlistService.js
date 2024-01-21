@@ -85,7 +85,10 @@ let getPlaylistByIdUser = async (idUser) => {
             nest: true
         })
 
-        // {userName: data[0].User.userName}
+        if(data.length == 0){
+            return []
+        }
+
         let listSong = [{ userName: data[0].User.userName }];
         data.forEach(playlist => {
             listSong.push(playlist.PlaylistDetails.Song)
